@@ -35,8 +35,8 @@ public class IDLoader {
     }
 
     private List<String> seperateIds(String ids) {
-        return Arrays
-                .stream(ids.split("\\n"))
+
+        return Arrays.stream(ids.split("\\n"))
                 .filter(name -> name.startsWith("c"))
                 .map(String::trim)
                 .collect(Collectors.toList());

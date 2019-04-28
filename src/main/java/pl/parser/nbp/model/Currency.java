@@ -1,7 +1,7 @@
 package pl.parser.nbp.model;
 
-import lombok.AccessLevel;
 import lombok.Data;
+import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
 import javax.xml.bind.annotation.XmlAccessType;
