@@ -7,7 +7,6 @@ import pl.parser.nbp.parser.XmlParser;
 import pl.parser.nbp.utils.DateUtils;
 import pl.parser.nbp.web.IDLoader;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,18 +24,18 @@ public class ExchangeRate {
     }
 
     public List<CurrencyDocument> getCurrDocumentsBetweenDates(LocalDate from, LocalDate to) {
-        List<String> ids = idLoader.getAllIdsByDate(from,to);
-        List<LocalDate> dates =  dateUtils.getDaysBetween(from,to);
+        List<String> ids = idLoader.getAllIdsByDate(from, to);
+        List<LocalDate> dates = dateUtils.getDaysBetween(from, to);
 
         return ids
                 .stream()
-                .filter(id -> isIdForDateExist(id,dates))
+                .filter(id -> isIdForDateExist(id, dates))
                 .map(id -> parser.getCurrencyTableFromFileById(id))
                 .collect(Collectors.toList());
 
     }
 
-    private boolean isIdForDateExist(String id, List<LocalDate> dates){
+    private boolean isIdForDateExist(String id, List<LocalDate> dates) {
         return dates
                 .stream()
                 .anyMatch(date -> id.contains(dateUtils.changeFormat(date)));

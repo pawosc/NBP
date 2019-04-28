@@ -16,7 +16,6 @@ public class CurrencyDocument {
     @XmlElement(name = "data_publikacji")
     String publicationDate;
 
-
     @XmlElement(name = "pozycja")
     List<Currency> currencies;
 
