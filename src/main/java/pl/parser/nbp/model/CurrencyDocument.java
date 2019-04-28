@@ -11,7 +11,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "tabela_kursow")
-public class CurrencyTable {
+public class CurrencyDocument {
 
     @XmlElement(name = "data_publikacji")
     String publicationDate;

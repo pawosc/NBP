@@ -1,6 +1,7 @@
-package pl.parser.nbp.Utils;
+package pl.parser.nbp.utils;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
@@ -8,6 +9,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class DateUtils {
+
+    public String changeFormat(LocalDate date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMdd");
+        return date.format(formatter);
+    }
 
     public List<LocalDate> getDaysBetween(LocalDate from, LocalDate to) {
         if (from.isAfter(to)) {

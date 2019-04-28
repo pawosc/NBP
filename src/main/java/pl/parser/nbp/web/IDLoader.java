@@ -3,8 +3,8 @@ package pl.parser.nbp.web;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.io.IOUtils;
-import pl.parser.nbp.Utils.DateUtils;
-import pl.parser.nbp.Utils.UrlUtils;
+import pl.parser.nbp.utils.DateUtils;
+import pl.parser.nbp.utils.UrlUtils;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,7 +23,7 @@ public class IDLoader {
     final DateUtils dateUtils = new DateUtils();
 
 
-    public List<String> getAllIdsByDate(LocalDate from, LocalDate to) throws IOException {
+    public List<String> getAllIdsByDate(LocalDate from, LocalDate to) {
         Set<Integer> yearsBetween = dateUtils.getYearsBetween(from, to);
 
         return yearsBetween.stream()
@@ -34,7 +34,7 @@ public class IDLoader {
                 .collect(Collectors.toList());
     }
 
-    public List<String> seperateIds(String ids){
+    private List<String> seperateIds(String ids) {
         return Arrays
                 .stream(ids.split("\\n"))
                 .filter(name -> name.startsWith("c"))

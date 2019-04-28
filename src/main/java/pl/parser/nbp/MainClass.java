@@ -25,7 +25,7 @@ public class MainClass {
         allIdsByYears.forEach(System.out::println);
 
 
-     /*   CurrencyTable table = parser.getCurrencyTableFromFileById("c073z070413");
+     /*   CurrencyDocument table = parser.getCurrencyTableFromFileById("c073z070413");
 
         System.out.println(table);*/
 

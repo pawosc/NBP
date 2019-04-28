@@ -3,8 +3,8 @@ package pl.parser.nbp.parser;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import org.apache.commons.io.FileUtils;
-import pl.parser.nbp.model.CurrencyTable;
-import pl.parser.nbp.Utils.UrlUtils;
+import pl.parser.nbp.model.CurrencyDocument;
+import pl.parser.nbp.utils.UrlUtils;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -20,22 +20,32 @@ public class XmlParser {
     final String FILE_TYPE = ".xml";
     final UrlUtils urlUtils = new UrlUtils();
 
-    public CurrencyTable getCurrencyTableFromFileById(String id) throws IOException, JAXBException {
+    public CurrencyDocument getCurrencyTableFromFileById(String id){
 
-        URL url = urlUtils.urlBuilder(NBP_CURRENCY_FILE_URL, id, FILE_TYPE);
-        File file = new File(id);
-        FileUtils.copyURLToFile(url, file);
+        URL url;
+        File file = null;
+        JAXBContext jaxbContext;
+        Unmarshaller jaxbUnmarshaller = null;
+        CurrencyDocument currencyDocument = null;
 
-        JAXBContext jaxbContext = JAXBContext.newInstance(CurrencyTable.class);
+        try {
+            url = urlUtils.urlBuilder(NBP_CURRENCY_FILE_URL, id, FILE_TYPE);
+            file = new File(id);
+            FileUtils.copyURLToFile(url, file);
+            jaxbContext = JAXBContext.newInstance(CurrencyDocument.class);
+            jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+            currencyDocument = (CurrencyDocument) jaxbUnmarshaller.unmarshal(file);
 
-        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        } catch (IOException e) {
+            e.printStackTrace();
 
-        CurrencyTable currencyTable = (CurrencyTable) jaxbUnmarshaller.unmarshal(file);
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
 
         file.delete();
 
-        return currencyTable;
-
+        return currencyDocument;
 
     }
 
