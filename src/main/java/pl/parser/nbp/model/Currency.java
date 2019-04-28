@@ -4,15 +4,24 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@XmlRootElement(name = "pozycja")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Currency {
 
-    String currency;
-    LocalDate publicationDate;
+    @XmlElement(name = "kod_waluty")
+    String currencyCode;
+
+    @XmlElement(name = "kurs_kupna")
     String buyingRate;
+
+    @XmlElement(name = "kurs_sprzedazy")
     String sellingRate;
 
 }
