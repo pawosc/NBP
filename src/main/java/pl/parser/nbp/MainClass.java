@@ -1,27 +1,33 @@
 package pl.parser.nbp;
 
-import pl.parser.nbp.model.CurrencyTable;
+import pl.parser.nbp.parser.XmlParser;
+import pl.parser.nbp.web.IDLoader;
 
-import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.Currency;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.List;
 
 public class MainClass {
-    public static void main(String[] args) throws JAXBException, MalformedURLException {
+    public static void main(String[] args) throws JAXBException, IOException {
 
-        File file = new File("C:\\Users\\oscik\\Desktop\\c073z070413.xml");
-        JAXBContext jaxbContext = JAXBContext.newInstance(CurrencyTable.class);
+        String date1= "2018-04-15";
+        String date2= "2019-04-22";
 
-        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        LocalDate first = LocalDate.parse(date1);
+        LocalDate last = LocalDate.parse(date2);
 
-        CurrencyTable currencyTable = (CurrencyTable) jaxbUnmarshaller.unmarshal(file);
 
-        System.out.println(currencyTable);
-        currencyTable.getCurrencies().forEach(System.out::println);
+        XmlParser parser = new XmlParser();
+        IDLoader idLoader = new IDLoader();
+
+        List<String> allIdsByYears = idLoader.getAllIdsByDate(first, last);
+        allIdsByYears.forEach(System.out::println);
+
+
+     /*   CurrencyTable table = parser.getCurrencyTableFromFileById("c073z070413");
+
+        System.out.println(table);*/
 
     }
 }
