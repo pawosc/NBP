@@ -1,5 +1,6 @@
 package pl.parser.nbp;
 
+import pl.parser.nbp.model.CurrencyCode;
 import pl.parser.nbp.model.CurrencyDocument;
 import pl.parser.nbp.parser.XmlParser;
 import pl.parser.nbp.web.DocumentLoader;
@@ -27,17 +28,17 @@ public class MainClass {
         List<String> allIdsByYears = idLoader.getAllIdsByDate(first, last);
        // allIdsByYears.forEach(System.out::println);
 
-        /*DocumentLoader rate = new DocumentLoader(idLoader, parser);
+        DocumentLoader rate = new DocumentLoader(idLoader, parser);
 
         List<CurrencyDocument> currDocumentsBetweenDates = rate.getCurrDocumentsBetweenDates(first, last);
         List<String> usd = currDocumentsBetweenDates.stream()
                 .flatMap(cur -> cur.getCurrencies().stream())
                 .distinct()
-                .filter(code -> code.getCurrencyCode().contains("USD"))
+                .filter(code -> code.getCurrencyCode().equalsIgnoreCase(CurrencyCode.USD.toString()))
                 .map(y -> y.getSellingRate())
                 .collect(Collectors.toList());
 
-        usd.forEach(System.out::println);*/
+        usd.forEach(System.out::println);
 
     }
 }
