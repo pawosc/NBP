@@ -28,12 +28,12 @@ public class DocumentLoader {
 
         return ids.stream()
                 .filter(id -> isIdForDateExist(id, dates))
-                .map(id -> parser.getCurrencyTableFromFileById(id))
+                .map(id -> parser.getCurrencyDocumentFromFileById(id))
                 .collect(Collectors.toList());
     }
 
     private boolean isIdForDateExist(String id, List<LocalDate> dates) {
         return dates.stream()
-                .anyMatch(date -> id.contains(dateUtils.changeFormat(date)));
+                .anyMatch(date -> id.contains(dateUtils.transformDate(date)));
     }
 }

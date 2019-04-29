@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,14 +23,13 @@ public class IDLoader {
     final UrlUtils urlUtils = new UrlUtils();
     final DateUtils dateUtils = new DateUtils();
 
-
     public List<String> getAllIdsByDate(LocalDate from, LocalDate to) {
         Set<Integer> yearsBetween = dateUtils.getYearsBetween(from, to);
 
         return yearsBetween.stream()
                 .map(year -> loadFileWithIdsByYear(year))
                 .map(this::separateIds)
-                .flatMap(id -> id.stream())
+                .flatMap(Collection::stream)
                 .distinct()
                 .collect(Collectors.toList());
     }
@@ -43,7 +43,7 @@ public class IDLoader {
     }
 
     private String loadFileWithIdsByYear(int year) {
-        String content = null;
+        String ids = null;
         String fileId = Integer.toString(year);
 
         if (year == LocalDate.now().getYear()) {
@@ -51,11 +51,11 @@ public class IDLoader {
         }
         try {
             URL url = urlUtils.urlBuilder(NBP_FILE_NAMES_URL, fileId, FILE_TYPE);
-            content = IOUtils.toString(url);
+            ids = IOUtils.toString(url);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return content;
+        return ids;
     }
 }

@@ -1,32 +1,29 @@
 package pl.parser.nbp.rate;
 
+import pl.parser.nbp.model.Currency;
 import pl.parser.nbp.parser.XmlParser;
 import pl.parser.nbp.web.IDLoader;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BuyingRate extends ExchangeRate {
-
 
     public BuyingRate(IDLoader idLoader, XmlParser xmlParser) {
         super(idLoader, xmlParser);
     }
 
-    public BigDecimal getAvgBuyingRate(LocalDate from, LocalDate to, String currency) {
-        List<String> buyingRates = getBuyingRates(from, to, currency);
+    public BigDecimal getAvgBuyingRate(LocalDate from, LocalDate to, String currencyCode) {
 
-        BigDecimal sum = buyingRates.stream()
-                .map(rate -> rate.replace(",", "."))
-                .map(BigDecimal::new)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return countAvgRate(getBuyingRates(from, to, currencyCode));
+    }
 
+    private List<String> getBuyingRates(LocalDate from, LocalDate to, String currencyCode) {
 
-        BigDecimal size = new BigDecimal(Integer.toString(buyingRates.size()));
-        BigDecimal avg = sum.divide(size, 4, RoundingMode.HALF_UP);
-
-        return avg;
+        return getCurrencies(from, to, currencyCode).stream()
+                .map(Currency::getBuyingRate)
+                .collect(Collectors.toList());
     }
 }

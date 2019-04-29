@@ -2,18 +2,23 @@ package pl.parser.nbp.rate;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import pl.parser.nbp.model.Currency;
 import pl.parser.nbp.model.CurrencyCode;
 import pl.parser.nbp.parser.XmlParser;
 import pl.parser.nbp.web.DocumentLoader;
 import pl.parser.nbp.web.IDLoader;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @FieldDefaults(level = AccessLevel.PROTECTED)
 public class ExchangeRate {
+
 
     IDLoader idLoader;
     XmlParser xmlParser;
@@ -25,35 +30,43 @@ public class ExchangeRate {
         this.loader = new DocumentLoader(idLoader,xmlParser);
     }
 
-    protected List<String> getSellingRates(LocalDate from, LocalDate to, String currencyCode){
-        if (!isCurrencyAvailable(currencyCode)) {
-            throw new UnsupportedOperationException(currencyCode + " currency is not supported");
-        }
+    protected BigDecimal countAvgRate(List<String> rates) {
 
-        return loader.getCurrDocumentsBetweenDates(from,to).stream()
-                .flatMap(cur -> cur.getCurrencies().stream())
-                .distinct()
-                .filter(code -> code.getCurrencyCode().equalsIgnoreCase(currencyCode))
-                .map(rate -> rate.getSellingRate())
-                .collect(Collectors.toList());
+        List<String> buyingRates = rates;
+
+        BigDecimal sum = buyingRates.stream()
+                .map(rate -> rate.replace(",", "."))
+                .map(BigDecimal::new)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+
+        BigDecimal size = new BigDecimal(Integer.toString(buyingRates.size()));
+        BigDecimal avg = sum.divide(size, 4, RoundingMode.HALF_UP);
+
+        return avg;
     }
 
-    protected List<String> getBuyingRates(LocalDate from, LocalDate to, String currencyCode){
+    protected List<Currency> getCurrencies(LocalDate from, LocalDate to, String currencyCode){
         if (!isCurrencyAvailable(currencyCode)) {
             throw new UnsupportedOperationException(currencyCode + " currency is not supported");
         }
 
-        return loader.getCurrDocumentsBetweenDates(from,to).stream()
-                .flatMap(cur -> cur.getCurrencies().stream())
+        List<Currency> currencies = loader.getCurrDocumentsBetweenDates(from, to).stream()
+                .flatMap(currencyDocument -> currencyDocument.getCurrencies().stream())
                 .distinct()
-                .filter(code -> code.getCurrencyCode().equalsIgnoreCase(currencyCode))
-                .map(rate -> rate.getBuyingRate())
+                .filter(currency -> currency.getCurrencyCode().equalsIgnoreCase(currencyCode))
                 .collect(Collectors.toList());
+
+        if(currencies.size()==0){
+            throw new NoSuchElementException("There aren't any rates between "+ from + " to " + to );
+        }
+
+        return currencies;
+
     }
 
     private boolean isCurrencyAvailable(String currency) {
-        return Arrays.asList(CurrencyCode.values())
-                .stream()
-                .anyMatch(cur -> cur.toString().equalsIgnoreCase(currency));
+        return Arrays.stream(CurrencyCode.values())
+                .anyMatch(currencyCode -> currencyCode.toString().equalsIgnoreCase(currency));
     }
 }

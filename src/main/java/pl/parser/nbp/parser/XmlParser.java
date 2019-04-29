@@ -18,9 +18,10 @@ public class XmlParser {
 
     final String NBP_CURRENCY_FILE_URL = "http://www.nbp.pl/kursy/xml/";
     final String FILE_TYPE = ".xml";
-    final UrlUtils urlUtils = new UrlUtils();
 
-    public CurrencyDocument getCurrencyTableFromFileById(String id){
+    UrlUtils urlUtils = new UrlUtils();
+
+    public CurrencyDocument getCurrencyDocumentFromFileById(String id){
 
         URL url;
         File file = null;
@@ -46,8 +47,5 @@ public class XmlParser {
         file.delete();
 
         return currencyDocument;
-
     }
-
-
 }
