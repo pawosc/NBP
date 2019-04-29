@@ -11,17 +11,16 @@ public class MainClass {
     public static void main(String[] args) {
 
         Scanner reader = new Scanner(System.in);
-        System.out.println("choose currency [USD, EUR, CHF, GBP]: ");
+        System.out.println("choose currency code and dates");
+        System.out.println("example input EUR 2013-01-28 2013-01-31");
+
         String currency = reader.next();
-        System.out.println("Start date: ");
-
         String date1 = reader.next();
-
-        System.out.println("End date: ");
         String date2 = reader.next();
 
         LocalDate first = LocalDate.parse(date1);
         LocalDate last = LocalDate.parse(date2);
+
         BuyingRate big = new BuyingRate();
         SellingRate sell = new SellingRate();
 
