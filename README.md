@@ -19,7 +19,7 @@ Download project and open IntelliJ, select file, open, localize your folder, sel
 
 ## 3 . Install additional software
 
-####3 .1 Intelij Lombok Plugin
+#### 3 .1 Intelij Lombok Plugin
 Install Lombok plugin: https://projectlombok.org/setup/intellij
 
 **Now we must enable annotation processing**!!!
