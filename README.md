@@ -1,4 +1,6 @@
-# NBP
+# Recruitment task
+task description: https://www.smart4aviation.aero/java_developer/task.php
+
 - program parse xml documents
 - calculate average buying rates and standard deviation selling rates for specific  date range from http://www.nbp.pl/kursy
 - Jdk version used: Jdk11
