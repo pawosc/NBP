@@ -1,10 +1,7 @@
 package pl.parser.nbp;
 
-import pl.parser.nbp.parser.XmlParser;
 import pl.parser.nbp.rate.BuyingRate;
 import pl.parser.nbp.rate.SellingRate;
-import pl.parser.nbp.web.DocumentLoader;
-import pl.parser.nbp.web.IDLoader;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
