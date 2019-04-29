@@ -10,7 +10,7 @@ class XmlParserTest {
 
     XmlParser parser = new XmlParser();
 
-    @DisplayName("Should return currency document with the cointan specific publication date.")
+    @DisplayName("Should return currency document with the specific publication date.")
     @Test
     void getCurrencyDocumentFromFileById() {
         //given

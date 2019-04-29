@@ -2,6 +2,7 @@ package pl.parser.nbp.rate;
 
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+
 import pl.parser.nbp.model.Currency;
 import pl.parser.nbp.model.CurrencyCode;
 import pl.parser.nbp.web.DocumentLoader;

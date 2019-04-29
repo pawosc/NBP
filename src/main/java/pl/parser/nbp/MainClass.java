@@ -5,24 +5,30 @@ import pl.parser.nbp.rate.SellingRate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Scanner;
 
 public class MainClass {
     public static void main(String[] args) {
 
-        String date1 = "2013-01-28";
-        String date2 = "2013-01-31";
+        Scanner reader = new Scanner(System.in);
+        System.out.println("choose currency [USD, EUR, CHF, GBP]: ");
+        String currency = reader.next();
+        System.out.println("Start date: ");
+
+        String date1 = reader.next();
+
+        System.out.println("End date: ");
+        String date2 = reader.next();
 
         LocalDate first = LocalDate.parse(date1);
         LocalDate last = LocalDate.parse(date2);
-
         BuyingRate big = new BuyingRate();
         SellingRate sell = new SellingRate();
 
-        BigDecimal usd = big.getAvgBuyingRate(first, last, "eur");
-        BigDecimal eee = sell.countStandardDeviation(first, last, "eur");
+        BigDecimal avg = big.getAvgBuyingRate(first, last, currency);
+        BigDecimal sd = sell.countStandardDeviation(first, last, currency);
 
-        System.out.println(usd);
-        System.out.println(eee);
-
+        System.out.println("avg buying rate: " + avg);
+        System.out.println("standard deviation: " + sd);
     }
 }
