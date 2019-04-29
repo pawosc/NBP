@@ -4,10 +4,9 @@ import pl.parser.nbp.parser.XmlParser;
 import pl.parser.nbp.web.IDLoader;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class BuyingRate extends ExchangeRate {
 
@@ -19,7 +18,15 @@ public class BuyingRate extends ExchangeRate {
     public BigDecimal getAvgBuyingRate(LocalDate from, LocalDate to, String currency) {
         List<String> buyingRates = getBuyingRates(from, to, currency);
 
-        return null;
+        BigDecimal sum = buyingRates.stream()
+                .map(rate -> rate.replace(",", "."))
+                .map(BigDecimal::new)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
+
+        BigDecimal size = new BigDecimal(Integer.toString(buyingRates.size()));
+        BigDecimal avg = sum.divide(size, 4, RoundingMode.HALF_UP);
+
+        return avg;
     }
 }

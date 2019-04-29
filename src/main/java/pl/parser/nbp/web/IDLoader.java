@@ -28,13 +28,13 @@ public class IDLoader {
 
         return yearsBetween.stream()
                 .map(year -> loadFileWithIdsByYear(year))
-                .map(this::seperateIds)
+                .map(this::separateIds)
                 .flatMap(id -> id.stream())
                 .distinct()
                 .collect(Collectors.toList());
     }
 
-    private List<String> seperateIds(String ids) {
+    private List<String> separateIds(String ids) {
 
         return Arrays.stream(ids.split("\\n"))
                 .filter(name -> name.startsWith("c"))
