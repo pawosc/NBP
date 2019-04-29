@@ -1,8 +1,6 @@
 package pl.parser.nbp.rate;
 
 import pl.parser.nbp.model.Currency;
-import pl.parser.nbp.parser.XmlParser;
-import pl.parser.nbp.web.IDLoader;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -12,10 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SellingRate extends ExchangeRate {
-
-    public SellingRate(IDLoader idLoader, XmlParser xmlParser) {
-        super(idLoader, xmlParser);
-    }
 
     public BigDecimal countStandardDeviation(LocalDate from, LocalDate to, String currencyCode) {
         BigDecimal variance = countVariance(from, to, currencyCode);

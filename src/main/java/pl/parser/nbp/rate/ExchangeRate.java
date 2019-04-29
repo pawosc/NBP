@@ -4,31 +4,19 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 import pl.parser.nbp.model.Currency;
 import pl.parser.nbp.model.CurrencyCode;
-import pl.parser.nbp.parser.XmlParser;
 import pl.parser.nbp.web.DocumentLoader;
-import pl.parser.nbp.web.IDLoader;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @FieldDefaults(level = AccessLevel.PROTECTED)
 public class ExchangeRate {
 
-
-    IDLoader idLoader;
-    XmlParser xmlParser;
-    DocumentLoader loader ;
-
-    public ExchangeRate(IDLoader idLoader, XmlParser xmlParser) {
-        this.idLoader = idLoader;
-        this.xmlParser = xmlParser;
-        this.loader = new DocumentLoader(idLoader,xmlParser);
-    }
+    DocumentLoader loader = new DocumentLoader();
 
     protected BigDecimal countAvgRate(List<String> rates) {
         List<String> buyingRates = rates;
@@ -45,7 +33,7 @@ public class ExchangeRate {
         return avg;
     }
 
-    protected List<Currency> getCurrencies(LocalDate from, LocalDate to, String currencyCode){
+    protected List<Currency> getCurrencies(LocalDate from, LocalDate to, String currencyCode) {
         if (!isCurrencyAvailable(currencyCode)) {
             throw new UnsupportedOperationException(currencyCode + " currency is not supported");
         }
@@ -55,10 +43,6 @@ public class ExchangeRate {
                 .distinct()
                 .filter(currency -> currency.getCurrencyCode().equalsIgnoreCase(currencyCode))
                 .collect(Collectors.toList());
-
-        if(currencies.size()==0){
-            throw new NoSuchElementException("There aren't any rates between "+ from + " to " + to );
-        }
 
         return currencies;
 

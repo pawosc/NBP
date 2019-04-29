@@ -9,10 +9,7 @@ import pl.parser.nbp.utils.UrlUtils;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -25,13 +22,26 @@ public class IDLoader {
 
     public List<String> getAllIdsByDate(LocalDate from, LocalDate to) {
         Set<Integer> yearsBetween = dateUtils.getYearsBetween(from, to);
+        List<LocalDate> dates = dateUtils.getDaysBetween(from, to);
 
-        return yearsBetween.stream()
+        List<String> ids = yearsBetween.stream()
                 .map(year -> loadFileWithIdsByYear(year))
                 .map(this::separateIds)
                 .flatMap(Collection::stream)
                 .distinct()
+                .filter(id -> isIdForDateExist(id, dates))
                 .collect(Collectors.toList());
+
+        if (ids.size() == 0) {
+            throw new NoSuchElementException("There aren't any rates between " + from + " to " + to);
+        }
+
+        return ids;
+    }
+
+    private boolean isIdForDateExist(String id, List<LocalDate> dates) {
+        return dates.stream()
+                .anyMatch(date -> id.contains(dateUtils.transformDate(date)));
     }
 
     private List<String> separateIds(String ids) {
