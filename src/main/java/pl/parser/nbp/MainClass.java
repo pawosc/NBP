@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class MainClass {
     public static void main(String[] args) {
 
-        String date1 = "2019-04-21";
+        String date1 = "2019-04-15";
         String date2 = "2019-04-22";
 
         LocalDate first = LocalDate.parse(date1);

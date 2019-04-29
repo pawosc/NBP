@@ -23,7 +23,6 @@ public class SellingRate extends ExchangeRate {
         return variance.sqrt(MathContext.DECIMAL32).setScale(4, RoundingMode.HALF_UP);
     }
 
-
     private BigDecimal countVariance(LocalDate from, LocalDate to, String currencyCode) {
         List<String> rates = getSellingRates(from, to, currencyCode);
 

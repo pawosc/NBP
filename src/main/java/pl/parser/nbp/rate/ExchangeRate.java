@@ -31,7 +31,6 @@ public class ExchangeRate {
     }
 
     protected BigDecimal countAvgRate(List<String> rates) {
-
         List<String> buyingRates = rates;
 
         BigDecimal sum = buyingRates.stream()
