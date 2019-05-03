@@ -31,4 +31,4 @@ Click file, setting and go to Annotation Processors in Build, Execution, Deploym
 #### 4.1 From Intelij
 Go to MainClass and press Ctrl + F10 or click the green arrow by main method signature.
 #### 4.2 from Cmd
-Go the folder where the project is located ->right mouse button-> open command windows here -> type **mvn exec:java -Dexec.mainClass="pl.parser.nbp.MainClass"**
+Go to the folder where the project is located ->right mouse button-> open command windows here -> type **mvn exec:java -Dexec.mainClass="pl.parser.nbp.MainClass"**
