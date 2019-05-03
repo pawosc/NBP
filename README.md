@@ -2,7 +2,7 @@
 task description: https://www.smart4aviation.aero/java_developer/task.php
 
 - program download and parse xml documents
-- calculate average buying rates and standard deviation selling rates for specific  date range from http://www.nbp.pl/kursy
+- calculate average buying rates and standard deviation selling rates for specific date range from http://www.nbp.pl/kursy
 - Jdk version used: Jdk11
 
 ## 1. Additional libraries used
